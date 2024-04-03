@@ -32,7 +32,7 @@ export default function GlobalHeader() {
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">AZ - Camisetas</span>
-            <Image className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+            <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -107,10 +107,11 @@ export default function GlobalHeader() {
           <div className="flex items-center justify-between">
             <Link href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">AZ - Camisetas</span>
-              <Image
+              <img
                 className="h-8 w-auto"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
+                width={50} 
               />
             </Link>
             <button
