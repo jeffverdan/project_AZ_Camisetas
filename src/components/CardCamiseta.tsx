@@ -10,7 +10,7 @@ function CardCamiseta({ camiseta }: Props) {
     return (
         <Link key={camiseta.id} href={`camiseta/${camiseta.id}`} className="group">
             <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                <img
+                <Image
                     src={camiseta.imagem}
                     alt={camiseta.nome}
                     className="h-full w-full object-cover object-center group-hover:opacity-75"

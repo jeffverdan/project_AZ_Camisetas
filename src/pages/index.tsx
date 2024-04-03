@@ -31,7 +31,7 @@ export default function App() {
               <FiltrosLateral />
               
               {camisetas.map((camiseta) => (
-                <CardCamiseta camiseta={camiseta} />
+                <CardCamiseta key={camiseta.id} camiseta={camiseta} />
                 ))}
             </div>
           </section>
