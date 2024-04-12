@@ -2,14 +2,32 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
+import { DataCamisaType, filterType } from '@/interfaces/Camisetas'
+import fetchCamisetas from '@/apis/fetchCamisetas'
 
-const subCategories = [
-    { name: 'Masculino', href: '#' },
-    { name: 'Feminino', href: '#' },
-    { name: 'Infantil', href: '#' },
-]
+interface FetchApiCamisas {
+    camisetas: DataCamisaType[]
+    filtros: {
+        genero: filterType,
+        tamanho: filterType
+    }
+}
 
-export default function FiltrosLateral() {
+interface Props {
+    filtros: {
+        genero?: filterType,
+        tamanho?: filterType
+    }
+    setCamisetas: (e: DataCamisaType[]) => void
+}
+
+export default function FiltrosLateral(props: Props) {
+    const { filtros, setCamisetas } = props;
+    const [filtrosSelecionados, setFiltrosSelecionados] = useState({
+        genero: '',
+        tamanho: ''
+    })
+
     const filters = [
         {
             id: 'color',
@@ -38,13 +56,26 @@ export default function FiltrosLateral() {
         },
     ];
 
+    console.log(filtros);
+
+    const handleFilter = (type: "genero" | "tamanho", value: string) => {
+        filtrosSelecionados[type] = value;
+        setFiltrosSelecionados({...filtrosSelecionados});
+        fetchFilter();
+    };
+
+    const fetchFilter = async () => {
+        const res = await fetchCamisetas({...filtrosSelecionados}) as unknown as FetchApiCamisas;
+        setCamisetas(res.camisetas);
+    }
+
     return (
         <form className="hidden lg:block">
             <h3 className="sr-only">Categories</h3>
             <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-                {subCategories.map((category) => (
-                    <li key={category.name}>
-                        <a href={category.href}>{category.name}</a>
+                {filtros.genero?.values.map((category) => (
+                    <li key={category.name} onClick={() => handleFilter('genero', category.id)}>
+                        <p className='cursor-pointer'>{category.name}</p>
                     </li>
                 ))}
 

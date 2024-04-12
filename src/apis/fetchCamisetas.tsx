@@ -1,12 +1,20 @@
-import { ResApiType } from "@/interfaces/Camisetas";
+import { ResApiType, filterType } from "@/interfaces/Camisetas";
 
+interface Props {
+    genero?: string,
+    tamanho?: string
+}
 
-const fetchCamisetas = async () => {
+const fetchCamisetas = async (props?: Props) => {
     try {
         // Fazer a solicitação à API do Mercado Livre para buscar camisetas
-        const response = await fetch('https://api.mercadolibre.com/sites/MLB/search?q=camiseta');
+        const response = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=camiseta${!!props?.genero ? '&' + 'FILTRABLE_GENDER=' + props?.genero : ''}`);
         const data = await response.json();
         // Extrair os dados relevantes das camisetas da resposta
+        const filtros = {
+            genero: data.available_filters.find(((e: { id: string; }) => e.id === "FILTRABLE_GENDER")),
+            tamanho: data.available_filters.find(((e: { id: string; }) => e.id === "FILTRABLE_SIZE")),
+        }
         const camisetas = data.results.map((result: ResApiType) => ({
             id: result.id,
             nome: result.title,
@@ -14,7 +22,7 @@ const fetchCamisetas = async () => {
             imagem: result.thumbnail,
             quant_disponivel: result.available_quantity
         }));
-        return camisetas
+        return { filtros, camisetas }
     } catch (error) {
         console.error('Erro ao buscar camisetas:', error);
     }

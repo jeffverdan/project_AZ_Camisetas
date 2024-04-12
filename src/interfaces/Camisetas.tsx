@@ -31,4 +31,15 @@ type VariacoesProdutoType = {
     variacoes?: VariacoesProdutoType[]
   }
 
-  export type { ResApiType, DataCamisaType, ImagensType, VariacoesProdutoType }
+  type filterType = {
+    id: string,
+    name: string,
+    type: string,
+    values: {
+        id: string,
+        name: string,
+        results: string
+    }[]
+}
+
+  export type { ResApiType, DataCamisaType, ImagensType, VariacoesProdutoType, filterType }
